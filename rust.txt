@@ -1,0 +1,22 @@
+Declaration: let x: i32 = 42;
+_x → no warning when not used
+Tuple: pair = ('a', 17) → pair.0, pair.1, destructure: (some_char, some_int) = ('a', 17)
+Function: fn greet() {println!("Hi there!");}
+fn fair_dice_roll() -> i32 {4} : declare return type
+Print: println!("{}", x);
+Import: use std::cmp::*;
+Array: let v = Vec::new();
+Struct: struct Vec2 {
+    x: f64, // 64-bit floating point, aka "double precision"
+    y: f64,
+}
+let v3 = Vec2 {
+    x: 14.0,
+    ..v2
+}; : initialize rest of the fields from other struct
+Define function for declared struct:
+impl Number {
+    fn is_strictly_positive(self) -> bool {
+        self.value > 0
+    }
+}
