@@ -30,13 +30,15 @@ fn get_pixels() -> Vec<Color>{
     let mut pixels = vec![Color::BLACK; WIDTH * HEIGHT];
     for i in 0..HEIGHT {
         for j in 0..WIDTH {
-            if i == j {
-                pixels[i * HEIGHT + j] = Color {
-                    r: 100,
-                    g: 100,
-                    b: 100,
-                }; 
-            }
+
+            let r: u8 = (255 * i / (WIDTH - 1)) as u8;
+            let g: u8 = (255 * j / (HEIGHT - 1)) as u8;
+            let b: u8 = (60) as u8;
+            pixels[i * HEIGHT + j] = Color {
+                r: r,
+                g: g,
+                b: b,
+            }; 
         }
     }
     return pixels;
