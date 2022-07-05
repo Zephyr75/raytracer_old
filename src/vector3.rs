@@ -1,5 +1,6 @@
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
 use std::fmt::{Display};
+use crate::point3::Point3;
 
 //A 3-dimensional vector
 #[derive(Debug, Copy, Clone)]
@@ -24,6 +25,18 @@ impl Add<Vector3> for Vector3 {
     }
 }
 
+//Vector addition with Point3
+impl Add<Point3> for Vector3 {
+    type Output = Point3;
+    fn add(self, _rhs: Point3) -> Point3 {
+        Point3 {
+            x: self.x + _rhs.x,
+            y: self.y + _rhs.y,
+            z: self.z + _rhs.z,
+        }
+    }
+}
+
 //Vector self addition
 impl AddAssign for Vector3 {
     fn add_assign(&mut self, _rhs: Vector3) {
@@ -37,6 +50,18 @@ impl AddAssign for Vector3 {
 impl Sub<Vector3> for Vector3 {
     type Output = Vector3;
     fn sub(self, _rhs: Vector3) -> Vector3 {
+        Vector3 {
+            x: self.x - _rhs.x,
+            y: self.y - _rhs.y,
+            z: self.z - _rhs.z,
+        }
+    }
+}
+
+//Vector substraction with Point3
+impl Sub<Point3> for Vector3 {
+    type Output = Vector3;
+    fn sub(self, _rhs: Point3) -> Vector3 {
         Vector3 {
             x: self.x - _rhs.x,
             y: self.y - _rhs.y,
@@ -95,6 +120,18 @@ impl Div<Vector3> for Vector3 {
             x: self.x / _rhs.x,
             y: self.y / _rhs.y,
             z: self.z / _rhs.z,
+        }
+    }
+}
+
+//Vector division with float
+impl Div<f32> for Vector3 {
+    type Output = Vector3;
+    fn div(self, _rhs: f32) -> Vector3 {
+        Vector3 {
+            x: self.x / _rhs,
+            y: self.y / _rhs,
+            z: self.z / _rhs,
         }
     }
 }

@@ -1,5 +1,5 @@
-use crate::point3;
-use crate::vector3;
+use crate::point3::Point3;
+use crate::vector3::Vector3;
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 
@@ -7,15 +7,15 @@ use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 #[derive(Debug, Copy, Clone)]
 pub struct Ray {
     // The 3D point representing the origin
-    pub origin: point3::Point3,
+    pub origin: Point3,
     // The 3D vector representing the direction
-    pub direction: vector3::Vector3,
+    pub direction: Vector3,
 }
 
 //Functions specific to Ray
 impl Ray {
-    pub fn at(&self, t: f32) -> point3::Point3 {
-        self.origin.Add(self.direction * t)
+    pub fn at(&self, t: f32) -> Point3 {
+        self.origin + self.direction * t
     }
 }
 
