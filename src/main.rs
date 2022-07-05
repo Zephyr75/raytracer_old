@@ -1,8 +1,10 @@
 use pixel_canvas::{input::MouseState, Canvas, Color, Image, XY, Vec3};
 mod vector3;
+mod point3;
+mod ray;
 
-const WIDTH: usize = 500;
-const HEIGHT: usize = 500;
+const WIDTH: usize = 800;
+const HEIGHT: usize = 450;
 fn main() {
 
     let canvas = Canvas::new(WIDTH, HEIGHT)
@@ -30,32 +32,30 @@ fn main() {
 fn get_pixels() -> Vec<Color>{
     let mut pixels = vec![Color::BLACK; WIDTH * HEIGHT];
 
-    let mut a = vector3::Vector3 {
-        x: 1.0,
+    let origin: point3::Point3 = point3::Point3 {
+        x: 0.0,
+        y: 0.0,
+        z: 0.0,
+    };
+
+    let direction: vector3::Vector3 = vector3::Vector3 {
+        x: 0.0,
+        y: 0.0,
         z: 1.0,
-        y: 1.0,
     };
 
-    let b = vector3::Vector3 {
-        x: 2.0,
-        y: 2.0,
-        z: 2.0,
+    let mut a = ray::Ray {
+        origin: origin,
+        direction: direction,
     };
 
-    println!("{}", a);
-    
-    println!("{}", b);
-    println!("{}", a + b);
-
-    
-    a += b;
     println!("{}", a);
 
     std::process::exit(0);
 
-    for i in 0..HEIGHT {
+    for i in 0..WIDTH {
         //println!("Lines remaining: {}", HEIGHT - i);
-        for j in 0..WIDTH {
+        for j in 0..HEIGHT {
 
             let r: u8 = (255 * i / (WIDTH - 1)) as u8;
             let g: u8 = (255 * j / (HEIGHT - 1)) as u8;

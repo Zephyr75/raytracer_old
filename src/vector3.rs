@@ -26,10 +26,10 @@ impl Add<Vector3> for Vector3 {
 
 //Vector self addition
 impl AddAssign for Vector3 {
-    fn add_assign(&mut self, rhs: Vector3) {
-        self.x += rhs.x;
-        self.y += rhs.y;
-        self.z += rhs.z;
+    fn add_assign(&mut self, _rhs: Vector3) {
+        self.x += _rhs.x;
+        self.y += _rhs.y;
+        self.z += _rhs.z;
     }
 }
 
@@ -47,10 +47,10 @@ impl Sub<Vector3> for Vector3 {
 
 //Vector self substraction
 impl SubAssign for Vector3 {
-    fn sub_assign(&mut self, rhs: Vector3) {
-        self.x -= rhs.x;
-        self.y -= rhs.y;
-        self.z -= rhs.z;
+    fn sub_assign(&mut self, _rhs: Vector3) {
+        self.x -= _rhs.x;
+        self.y -= _rhs.y;
+        self.z -= _rhs.z;
     }
 }
 
@@ -62,6 +62,18 @@ impl Mul<Vector3> for Vector3 {
             x: self.x * _rhs.x,
             y: self.y * _rhs.y,
             z: self.z * _rhs.z,
+        }
+    }
+}
+
+//Vector multiplication with float
+impl Mul<f32> for Vector3 {
+    type Output = Vector3;
+    fn mul(self, _rhs: f32) -> Vector3 {
+        Vector3 {
+            x: self.x * _rhs,
+            y: self.y * _rhs,
+            z: self.z * _rhs,
         }
     }
 }
