@@ -1,4 +1,5 @@
-use pixel_canvas::{input::MouseState, Canvas, Color, Image, XY};
+use pixel_canvas::{input::MouseState, Canvas, Color, Image, XY, Vec3};
+mod vector3;
 
 const WIDTH: usize = 500;
 const HEIGHT: usize = 500;
@@ -28,7 +29,32 @@ fn main() {
 
 fn get_pixels() -> Vec<Color>{
     let mut pixels = vec![Color::BLACK; WIDTH * HEIGHT];
+
+    let mut a = vector3::Vector3 {
+        x: 1.0,
+        z: 1.0,
+        y: 1.0,
+    };
+
+    let b = vector3::Vector3 {
+        x: 2.0,
+        y: 2.0,
+        z: 2.0,
+    };
+
+    println!("{}", a);
+    
+    println!("{}", b);
+    println!("{}", a + b);
+
+    
+    a += b;
+    println!("{}", a);
+
+    std::process::exit(0);
+
     for i in 0..HEIGHT {
+        //println!("Lines remaining: {}", HEIGHT - i);
         for j in 0..WIDTH {
 
             let r: u8 = (255 * i / (WIDTH - 1)) as u8;
