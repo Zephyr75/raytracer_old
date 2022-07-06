@@ -130,13 +130,14 @@ fn ray_color(r: Ray) -> Color {
 
 fn hit_sphere(center: Point3, radius: f32, r: Ray) -> f32 {
     let oc: Vector3 = r.origin - center;
-    let a: f32 = oc.dot(oc) - radius * radius;
-    let b: f32 = 2.0 * oc.dot(r.direction);
-    let c: f32 = r.direction.dot(r.direction);
-    let discriminant: f32 = b * b - 4.0 * c * a;
+    let a = r.direction.length().powi(2);
+    let half_b = oc.dot(r.direction);
+    let c = oc.length().powi(2) - radius.powi(2);
+    let discriminant = half_b * half_b - a * c;
+
     if (discriminant < 0.0) {
         -1.0
     } else {
-        (-b - discriminant.sqrt() ) / (2.0*c)
+        (-half_b - discriminant.sqrt()) / a
     }
 }
