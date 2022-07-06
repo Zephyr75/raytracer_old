@@ -155,6 +155,22 @@ impl Vector3 {
         self.x * other.x + self.y * other.y + self.z * other.z
     }
 
+    pub fn unit(&self) -> Vector3 {
+        let length = self.length();
+        Vector3 {
+            x: self.x / length,
+            y: self.y / length,
+            z: self.z / length,
+        }
+    }
+
+    pub fn unit_assign(&mut self) {
+        let length = self.length();
+        self.x /= length;
+        self.y /= length;
+        self.z /= length;
+    }
+
 }
 
 impl Display for Vector3 {

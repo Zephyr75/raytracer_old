@@ -83,19 +83,8 @@ pub fn main() {
                 let r: Ray = Ray { origin: origin, direction: lower_left_corner - origin + horizontal * u + vertical * v };
     
                 let mut color = ray_color(r);
-    
-                let center: Point3 = Point3 {
-                    x: 0.0,
-                    y: 0.0,
-                    z: -1.0,
-                };
-    
-                if (hit_sphere(center, 0.5, r)){
-                    color = Color::RED;
-                }
-
                 
-                let p: Point = Point::new(i as i32, j as i32);
+                let p: Point = Point::new(i as i32, (HEIGHT - j - 1) as i32);
                 canvas.set_draw_color(color);
                 canvas.draw_point(p);
     
@@ -113,19 +102,37 @@ pub fn main() {
 }
 
 fn ray_color(r: Ray) -> Color {
-    let unit_direction: Vector3 = r.direction;
-    let t = 0.5*(unit_direction.y + 1.0);
+    let center: Point3 = Point3 {
+        x: 0.0,
+        y: 0.0,
+        z: -1.0,
+    };
+    let mut t = hit_sphere(center, 0.5, r);
+    if (t > 0.0){
+        let N = (r.at(t) - center).unit();
+        let r = 255.0 * 0.5 * (N.x + 1.0);
+        let g = 255.0 * 0.5 * (N.y + 1.0);
+        let b = 255.0 * 0.5 * (N.z + 1.0);
+        return Color::RGB(r as u8, g as u8, b as u8);
+    }
+
+    let unit_direction: Vector3 = r.direction.unit();
+    t = 0.5*(unit_direction.y + 1.0);
     let r = (1.0 - t) * 255.0 + t * 127.0;
     let g = (1.0 - t) * 255.0 + t * 180.0;
     let b = (1.0 - t) * 255.0 + t * 255.0;
     Color::RGB(r as u8, g as u8, b as u8)
 }
 
-fn hit_sphere(center: Point3, radius: f32, r: Ray) -> bool {
+fn hit_sphere(center: Point3, radius: f32, r: Ray) -> f32 {
     let oc: Vector3 = r.origin - center;
     let a: f32 = oc.dot(oc) - radius * radius;
     let b: f32 = 2.0 * oc.dot(r.direction);
     let c: f32 = r.direction.dot(r.direction);
     let discriminant: f32 = b * b - 4.0 * c * a;
-    discriminant > 0.0
+    if (discriminant < 0.0) {
+        -1.0
+    } else {
+        (-b - discriminant.sqrt() ) / (2.0*c)
+    }
 }
