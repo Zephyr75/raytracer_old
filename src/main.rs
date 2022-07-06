@@ -15,9 +15,9 @@ use point3::Point3;
 mod ray;
 use ray::Ray;
 
-const WIDTH: u32 = 1200;
+const WIDTH: u32 = 800;
 const ASPECT_RATIO: f32 = 16.0 / 9.0;
-const HEIGHT: u32 = 675;
+const HEIGHT: u32 = 450;
  
 pub fn main() {
     let sdl_context = sdl2::init().unwrap();
@@ -65,7 +65,6 @@ pub fn main() {
 
 
     'running: loop {
-        //compute fps
         println!("fps: {}", 1000 / SystemTime::now().duration_since(last_frame).unwrap().as_millis());
         last_frame = SystemTime::now();
         
@@ -81,24 +80,21 @@ pub fn main() {
 
         ////////////////////////////////////////////////////////////////////////
 
-        let indexes = 0 .. HEIGHT * WIDTH;
+        let mut pixels: Vec<(Point, Color)> = vec![(Point::new(0, 0), Color::BLACK); (HEIGHT * WIDTH) as usize];
 
-        //array of (Point, Color) of size WIDTH * HEIGHT
-        let mut pixels: Vec<(Point, Color)> = vec![];
-
-        indexes.into_par_iter().for_each(|x| {
-            let i = x % WIDTH;
-            let j = x / WIDTH;
+        pixels.par_iter_mut().enumerate().for_each(|(k, p)| {
+            let i = k as u32 % WIDTH;
+            let j = k as u32 / WIDTH;
             let u: f32 = i as f32 / (WIDTH as f32 - 1.0);
             let v: f32 = j as f32 / (HEIGHT as f32 - 1.0);
             
-            let r: Ray = Ray { origin: origin, direction: lower_left_corner - origin + horizontal * u + vertical * v };
+            let ray: Ray = Ray { origin: origin, direction: lower_left_corner - origin + horizontal * u + vertical * v };
 
-            let mut color = ray_color(r);
+            let mut color = ray_color(ray);
             
-            let p: Point = Point::new(i as i32, (HEIGHT - j - 1) as i32);
+            let point: Point = Point::new(i as i32, (HEIGHT - j - 1) as i32);
 
-            pixels.push((p, color));
+            *p = (point, color);
         });
 
         pixels.iter().for_each(|p|{
