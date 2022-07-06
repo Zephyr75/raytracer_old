@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'Ray'",
+            "name": "Debug executable 'raycaster'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=Ray",
-                    "--package=Ray"
+                    "--bin=raycaster",
+                    "--package=raycaster"
                 ],
                 "filter": {
-                    "name": "Ray",
+                    "name": "raycaster",
                     "kind": "bin"
                 }
             },
@@ -25,16 +25,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'Ray'",
+            "name": "Debug unit tests in executable 'raycaster'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=Ray",
-                    "--package=Ray"
+                    "--bin=raycaster",
+                    "--package=raycaster"
                 ],
                 "filter": {
-                    "name": "Ray",
+                    "name": "raycaster",
                     "kind": "bin"
                 }
             },
