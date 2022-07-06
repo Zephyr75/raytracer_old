@@ -15,16 +15,14 @@ use point3::Point3;
 mod ray;
 use ray::Ray;
 
-const WIDTH: u32 = 800;
-const ASPECT_RATIO: f32 = 16.0 / 9.0;
-const HEIGHT: u32 = 450;
  
 pub fn main() {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
  
-    let window = video_subsystem.window("Raytracer", WIDTH, HEIGHT)
+    let window = video_subsystem.window("Raytracer", 800, 400)
         .position_centered()
+        .resizable()
         .build()
         .unwrap();
  
@@ -38,17 +36,10 @@ pub fn main() {
 
     // Viewport settings
     let viewport_height = 2.0;
-    let viewport_width = ASPECT_RATIO as f32 * viewport_height;
     let focal_length = 1.0;
 
     let origin: Point3 = Point3 {
         x: 0.0,
-        y: 0.0,
-        z: 0.0,
-    };
-
-    let horizontal: Vector3 = Vector3 {
-        x: viewport_width,
         y: 0.0,
         z: 0.0,
     };
@@ -59,12 +50,18 @@ pub fn main() {
         z: 0.0,
     };
 
-    let lower_left_corner = origin - horizontal/2.0 - vertical/2.0 - vector3 :: Vector3{x: 0.0, y: 0.0, z: focal_length};
-
-
-
-
     'running: loop {
+        let width = canvas.window().size().0;
+        let height = canvas.window().size().1;
+        let aspect_ratio = width as f32 / height as f32;
+        let viewport_width = aspect_ratio * viewport_height;
+        let horizontal: Vector3 = Vector3 {
+            x: viewport_width,
+            y: 0.0,
+            z: 0.0,
+        };
+        let lower_left_corner = origin - horizontal/2.0 - vertical/2.0 - vector3 :: Vector3{x: 0.0, y: 0.0, z: focal_length};
+
         println!("fps: {}", 1000 / SystemTime::now().duration_since(last_frame).unwrap().as_millis());
         last_frame = SystemTime::now();
         
@@ -80,19 +77,19 @@ pub fn main() {
 
         ////////////////////////////////////////////////////////////////////////
 
-        let mut pixels: Vec<(Point, Color)> = vec![(Point::new(0, 0), Color::BLACK); (HEIGHT * WIDTH) as usize];
+        let mut pixels: Vec<(Point, Color)> = vec![(Point::new(0, 0), Color::BLACK); (height * width) as usize];
 
         pixels.par_iter_mut().enumerate().for_each(|(k, p)| {
-            let i = k as u32 % WIDTH;
-            let j = k as u32 / WIDTH;
-            let u: f32 = i as f32 / (WIDTH as f32 - 1.0);
-            let v: f32 = j as f32 / (HEIGHT as f32 - 1.0);
+            let i = k as u32 % width;
+            let j = k as u32 / width;
+            let u: f32 = i as f32 / (width as f32 - 1.0);
+            let v: f32 = j as f32 / (height as f32 - 1.0);
             
             let ray: Ray = Ray { origin: origin, direction: lower_left_corner - origin + horizontal * u + vertical * v };
 
             let mut color = ray_color(ray);
             
-            let point: Point = Point::new(i as i32, (HEIGHT - j - 1) as i32);
+            let point: Point = Point::new(i as i32, (height - j - 1) as i32);
 
             *p = (point, color);
         });
