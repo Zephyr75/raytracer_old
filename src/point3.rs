@@ -13,7 +13,7 @@ pub struct Point3 {
     pub z: f32,
 }
 
-//Vector addition
+// Vector addition
 impl Add<Point3> for Point3 {
     type Output = Vector3;
     fn add(self, _rhs: Point3) -> Vector3 {
@@ -25,7 +25,7 @@ impl Add<Point3> for Point3 {
     }
 }
 
-//Vector addition
+// Vector addition
 impl Add<Vector3> for Point3 {
     type Output = Point3;
     fn add(self, _rhs: Vector3) -> Point3 {
@@ -37,7 +37,7 @@ impl Add<Vector3> for Point3 {
     }
 }
 
-//Vector self addition
+// Vector self addition
 impl AddAssign<Vector3> for Point3 {
     fn add_assign(&mut self, _rhs: Vector3) {
         self.x += _rhs.x;
@@ -46,7 +46,7 @@ impl AddAssign<Vector3> for Point3 {
     }
 }
 
-//Vector substraction
+// Vector substraction
 impl Sub<Point3> for Point3 {
     type Output = Vector3;
     fn sub(self, _rhs: Point3) -> Vector3 {
@@ -58,7 +58,7 @@ impl Sub<Point3> for Point3 {
     }
 }
 
-//Vector substraction
+// Vector substraction
 impl Sub<Vector3> for Point3 {
     type Output = Point3;
     fn sub(self, _rhs: Vector3) -> Point3 {
@@ -70,7 +70,7 @@ impl Sub<Vector3> for Point3 {
     }
 }
 
-//Vector self substraction
+// Vector self substraction
 impl SubAssign<Vector3> for Point3 {
     fn sub_assign(&mut self, _rhs: Vector3) {
         self.x -= _rhs.x;
@@ -79,7 +79,7 @@ impl SubAssign<Vector3> for Point3 {
     }
 }
 
-//Functions specific to Point3
+// Functions specific to Point3
 impl Point3 {
 
 }

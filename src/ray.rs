@@ -12,7 +12,7 @@ pub struct Ray {
     pub direction: Vector3,
 }
 
-//Functions specific to Ray
+// Functions specific to Ray
 impl Ray {
     pub fn at(&self, t: f32) -> Point3 {
         self.origin + self.direction * t

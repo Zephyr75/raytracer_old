@@ -13,7 +13,7 @@ pub struct Vector3 {
     pub z: f32,
 }
 
-//Vector addition
+// Vector addition
 impl Add<Vector3> for Vector3 {
     type Output = Vector3;
     fn add(self, _rhs: Vector3) -> Vector3 {
@@ -25,7 +25,7 @@ impl Add<Vector3> for Vector3 {
     }
 }
 
-//Vector addition with Point3
+// Vector addition with Point3
 impl Add<Point3> for Vector3 {
     type Output = Point3;
     fn add(self, _rhs: Point3) -> Point3 {
@@ -37,7 +37,7 @@ impl Add<Point3> for Vector3 {
     }
 }
 
-//Vector self addition
+// Vector self addition
 impl AddAssign for Vector3 {
     fn add_assign(&mut self, _rhs: Vector3) {
         self.x += _rhs.x;
@@ -46,7 +46,7 @@ impl AddAssign for Vector3 {
     }
 }
 
-//Vector substraction
+// Vector substraction
 impl Sub<Vector3> for Vector3 {
     type Output = Vector3;
     fn sub(self, _rhs: Vector3) -> Vector3 {
@@ -58,7 +58,7 @@ impl Sub<Vector3> for Vector3 {
     }
 }
 
-//Vector substraction with Point3
+// Vector substraction with Point3
 impl Sub<Point3> for Vector3 {
     type Output = Vector3;
     fn sub(self, _rhs: Point3) -> Vector3 {
@@ -70,7 +70,7 @@ impl Sub<Point3> for Vector3 {
     }
 }
 
-//Vector self substraction
+// Vector self substraction
 impl SubAssign for Vector3 {
     fn sub_assign(&mut self, _rhs: Vector3) {
         self.x -= _rhs.x;
@@ -79,7 +79,7 @@ impl SubAssign for Vector3 {
     }
 }
 
-//Vector multiplication
+// Vector multiplication
 impl Mul<Vector3> for Vector3 {
     type Output = Vector3;
     fn mul(self, _rhs: Vector3) -> Vector3 {
@@ -91,7 +91,7 @@ impl Mul<Vector3> for Vector3 {
     }
 }
 
-//Vector multiplication with float
+// Vector multiplication with float
 impl Mul<f32> for Vector3 {
     type Output = Vector3;
     fn mul(self, _rhs: f32) -> Vector3 {
@@ -103,7 +103,7 @@ impl Mul<f32> for Vector3 {
     }
 }
 
-//Vector self multiplication
+// Vector self multiplication
 impl MulAssign for Vector3 {
     fn mul_assign(&mut self, rhs: Vector3) {
         self.x *= rhs.x;
@@ -112,7 +112,7 @@ impl MulAssign for Vector3 {
     }
 }
 
-//Vector division
+// Vector division
 impl Div<Vector3> for Vector3 {
     type Output = Vector3;
     fn div(self, _rhs: Vector3) -> Vector3 {
@@ -124,7 +124,7 @@ impl Div<Vector3> for Vector3 {
     }
 }
 
-//Vector division with float
+// Vector division with float
 impl Div<f32> for Vector3 {
     type Output = Vector3;
     fn div(self, _rhs: f32) -> Vector3 {
@@ -136,7 +136,7 @@ impl Div<f32> for Vector3 {
     }
 }
 
-//Vector self division
+// Vector self division
 impl DivAssign for Vector3 {
     fn div_assign(&mut self, rhs: Vector3) {
         self.x /= rhs.x;
@@ -145,7 +145,7 @@ impl DivAssign for Vector3 {
     }
 }
 
-//Functions specific to Vector3
+// Functions specific to Vector3
 impl Vector3 {
     pub fn length(&self) -> f32 {
         (self.x * self.x + self.y * self.y + self.z * self.z).sqrt()
