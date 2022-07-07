@@ -12,5 +12,5 @@ pub struct Hit {
 }
 
 trait Hittable {
-    fn hit(&self, f32: t_min, f32: t_max, &Hit: hit) -> bool;
+    fn hit(&self, Ray: ray, f32: t_min, f32: t_max, &Hit: hit) -> bool;
 }
