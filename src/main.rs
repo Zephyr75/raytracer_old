@@ -18,6 +18,15 @@ use math::vector3::Vector3;
 use math::point3::Point3;
 use math::ray::Ray;
 
+mod collision {
+    pub mod sphere;
+    pub mod hittable;
+}
+
+use collision::sphere::Sphere;
+use collision::hittable::Hit;
+use collision::hittable::Hittable;
+
 
  
 pub fn main() {
@@ -115,6 +124,7 @@ fn ray_color(r: Ray) -> Color {
         y: 0.0,
         z: -1.0,
     };
+
     let mut t = hit_sphere(center, 0.5, r);
     if (t > 0.0){
         let N = (r.at(t) - center).unit();
@@ -144,4 +154,25 @@ fn hit_sphere(center: Point3, radius: f32, r: Ray) -> f32 {
     } else {
         (-half_b - discriminant.sqrt()) / a
     }
+}
+
+fn hit_anything (objects: Vec<Box<dyn Hittable>>, r: Ray, t_min: f32, t_max: f32, hit: &mut Hit) -> bool {
+    let mut temp_hit: Hit = Hit{
+        t: 0.0,
+        point: Point3{x: 0.0, y: 0.0, z: 0.0},
+        normal: Vector3{x: 0.0, y: 0.0, z: 0.0},
+        front_face: false,
+    };
+    let mut hit_anything = false;
+    let mut closest_so_far = t_max;
+    
+    objects.iter().for_each(|o|{
+        if o.hit(r, t_min, closest_so_far, &mut temp_hit) {
+            hit_anything = true;
+            closest_so_far = temp_hit.t;
+            *hit = temp_hit;
+        }
+    });
+
+    hit_anything
 }

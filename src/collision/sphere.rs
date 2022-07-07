@@ -1,5 +1,8 @@
 
 use crate::math::point3::Point3;
+use crate::math::ray::Ray;
+use crate::collision::hittable::Hit;
+use crate::collision::hittable::Hittable;
 
 pub struct Sphere {
     // The center of the sphere
@@ -23,7 +26,7 @@ impl Hittable for Sphere {
         let sqrtDiscriminant = discriminant.sqrt();
 
         // Find the nearest root that lies in the acceptable range
-        let root = (-half_b - sqrtDiscriminant) / a;
+        let mut root = (-half_b - sqrtDiscriminant) / a;
         if (root < t_min || root > t_max) {
             root = (-half_b + sqrtDiscriminant) / a;
             if (root < t_min || root > t_max) {
@@ -33,7 +36,8 @@ impl Hittable for Sphere {
 
         hit.t = root;
         hit.point = ray.at(hit.t);
-        hit.normal = (hit.point - self.center) / self.radius;
+        let outward_normal = (hit.point - self.center) / self.radius;
+        hit.set_face_normal(ray, outward_normal);
 
         true
     }

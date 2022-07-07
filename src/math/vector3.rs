@@ -1,4 +1,4 @@
-use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
+use std::ops::{Add, AddAssign, Sub, SubAssign, Neg, Mul, MulAssign, Div, DivAssign};
 use std::fmt::{Display};
 use crate::math::point3::Point3;
 
@@ -76,6 +76,18 @@ impl SubAssign for Vector3 {
         self.x -= _rhs.x;
         self.y -= _rhs.y;
         self.z -= _rhs.z;
+    }
+}
+
+// Vector opposite
+impl Neg for Vector3 {
+    type Output = Vector3;
+    fn neg(self) -> Vector3 {
+        Vector3 {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
+        }
     }
 }
 
