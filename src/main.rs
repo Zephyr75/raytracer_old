@@ -8,12 +8,16 @@ use sdl2::rect::Point;
 use std::time::{SystemTime, Duration};
 use rayon::prelude::*;
 
-mod vector3;
-use vector3::Vector3;
-mod point3;
-use point3::Point3;
-mod ray;
-use ray::Ray;
+mod math {
+    pub mod vector3;
+    pub mod point3;
+    pub mod ray;
+}
+
+use math::vector3::Vector3;
+use math::point3::Point3;
+use math::ray::Ray;
+
 
  
 pub fn main() {
@@ -60,7 +64,7 @@ pub fn main() {
             y: 0.0,
             z: 0.0,
         };
-        let lower_left_corner = origin - horizontal/2.0 - vertical/2.0 - vector3 :: Vector3{x: 0.0, y: 0.0, z: focal_length};
+        let lower_left_corner = origin - horizontal/2.0 - vertical/2.0 - Vector3{x: 0.0, y: 0.0, z: focal_length};
 
         println!("fps: {}", 1000 / SystemTime::now().duration_since(last_frame).unwrap().as_millis());
         last_frame = SystemTime::now();

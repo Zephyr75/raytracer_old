@@ -1,5 +1,5 @@
-use crate::point3::Point3;
-use crate::vector3::Vector3;
+use crate::math::point3::Point3;
+use crate::math::vector3::Vector3;
 use std::fmt::Display;
 use std::ops::{Add, AddAssign, Div, DivAssign, Mul, MulAssign, Sub, SubAssign};
 

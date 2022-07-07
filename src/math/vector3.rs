@@ -1,6 +1,6 @@
 use std::ops::{Add, AddAssign, Sub, SubAssign, Mul, MulAssign, Div, DivAssign};
 use std::fmt::{Display};
-use crate::point3::Point3;
+use crate::math::point3::Point3;
 
 //A 3-dimensional vector
 #[derive(Debug, Copy, Clone)]
