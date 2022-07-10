@@ -28,9 +28,9 @@ impl Hittable for Sphere {
 
         // Find the nearest root that lies in the acceptable range
         let mut root = (-half_b - sqrt_discriminant) / a;
-        if (root < t_min || root > t_max) {
+        if root < t_min || root > t_max {
             root = (-half_b + sqrt_discriminant) / a;
-            if (root < t_min || root > t_max) {
+            if root < t_min || root > t_max {
                 return false;
             }
         }
