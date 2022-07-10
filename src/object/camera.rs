@@ -1,5 +1,6 @@
 use crate::math::point3::Point3;
 use crate::math::vector3::Vector3;
+use crate::math::ray::Ray;
 
 pub struct Camera {
     // The aspect ratio of the camera
@@ -52,6 +53,16 @@ impl Default for Camera {
             vertical,
             horizontal,
             lower_left_corner,
+        }
+    }
+}
+
+impl Camera {
+    pub fn get_ray(&self, u: f32, v: f32) -> Ray {
+        let direction = self.lower_left_corner + self.horizontal * u + self.vertical * v - self.origin;
+        Ray {
+            origin: self.origin,
+            direction,
         }
     }
 }

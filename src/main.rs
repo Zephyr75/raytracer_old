@@ -99,15 +99,32 @@ pub fn main() {
         pixels.par_iter_mut().enumerate().for_each(|(k, p)| {
             let i = k as u32 % width;
             let j = k as u32 / width;
-            let u: f32 = i as f32 / (width as f32 - 1.0);
-            let v: f32 = j as f32 / (height as f32 - 1.0);
             
-            let ray: Ray = Ray {
-                origin: camera.origin,
-                direction: camera.lower_left_corner - camera.origin + camera.horizontal * u + camera.vertical * v
-            };
+            let mut color = Color::BLACK; 
+            let mut r: u16 = 0;
+            let mut g: u16 = 0;
+            let mut b: u16 = 0;
+
+            let steps = 1;
             
-            let color = ray_color(&ray, &world);
+            for _ in 0..steps {
+                let u: f32 = (i as f32 + random_double()) / (width as f32 - 1.0);
+                let v: f32 = (j as f32 + random_double()) / (height as f32 - 1.0);
+
+                let ray: Ray = camera.get_ray(u, v);
+
+                r += ray_color(&ray, &world).r as u16;
+                g += ray_color(&ray, &world).g as u16;
+                b += ray_color(&ray, &world).b as u16;
+            }
+
+            r /= steps;
+            g /= steps;
+            b /= steps;
+            r.clamp(0, 254);
+            g.clamp(0, 254);
+            b.clamp(0, 254);
+            color = Color::RGB(r as u8, g as u8, b as u8);
             
             let point: Point = Point::new(i as i32, (height - j - 1) as i32);
 
