@@ -4,7 +4,7 @@ An experimental raytracer written in Rust
 
 - Install **Rust**
 - Install **MinGW**
-- Follow **Windows (MinGW)** instructions from: https://crates.io/crates/sdl2
+- Follow **Windows (MinGW)** instructions from https://crates.io/crates/sdl2
 - Run commands
 
 <!---->
