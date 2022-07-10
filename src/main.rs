@@ -78,7 +78,7 @@ pub fn main() {
         };
         let lower_left_corner = origin - horizontal/2.0 - vertical/2.0 - Vector3{x: 0.0, y: 0.0, z: focal_length};
 
-        println!("fps: {}", 1000 / SystemTime::now().duration_since(last_frame).unwrap().as_millis());
+        println!("fps: {}", 1000.0 / SystemTime::now().duration_since(last_frame).unwrap().as_millis() as f32);
         last_frame = SystemTime::now();
         
         for event in event_pump.poll_iter() {
@@ -95,24 +95,7 @@ pub fn main() {
 
         let mut pixels: Vec<(Point, Color)> = vec![(Point::new(0, 0), Color::BLACK); (height * width) as usize];
 
-        let mut world: Vec<Arc<dyn Hittable + Sync + Send>> = vec![];
-        world.push(Arc::new(Sphere {
-            center: Point3 {
-                x: 0.0,
-                y: 0.0,
-                z: -1.0,
-            },
-            radius: 0.5,
-        }));
-        world.push(Arc::new(Sphere {
-            center: Point3 {
-                x: 0.0,
-                y: 1.0,
-                z: -1.0,
-            },
-            radius: 0.5,
-        }));
-
+        
         
         pixels.par_iter_mut().enumerate().for_each(|(k, p)| {
             let i = k as u32 % width;
@@ -121,6 +104,24 @@ pub fn main() {
             let v: f32 = j as f32 / (height as f32 - 1.0);
             
             let ray: Ray = Ray { origin: origin, direction: lower_left_corner - origin + horizontal * u + vertical * v };
+
+            let mut world: Vec<Box<dyn Hittable>> = vec![];
+            world.push(Box::new(Sphere {
+                center: Point3 {
+                    x: 0.0,
+                    y: 0.0,
+                    z: -1.0,
+                },
+                radius: 0.5,
+            }));
+            world.push(Box::new(Sphere {
+                center: Point3 {
+                    x: 1.0,
+                    y: 0.0,
+                    z: -1.0,
+                },
+                radius: 0.2,
+            }));
             
             let mut color = ray_color(&ray, &world);
             
@@ -129,10 +130,13 @@ pub fn main() {
             *p = (point, color);
         });
 
+        
         pixels.iter().for_each(|p|{
             canvas.set_draw_color(p.1);
             canvas.draw_point(p.0);
         });
+        
+        
 
         ////////////////////////////////////////////////////////////////////////
 
