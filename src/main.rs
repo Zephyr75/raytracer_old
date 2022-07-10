@@ -113,9 +113,9 @@ pub fn main() {
 
                 let ray: Ray = camera.get_ray(u, v);
 
-                r += ray_color(&ray, &world).r as u16;
-                g += ray_color(&ray, &world).g as u16;
-                b += ray_color(&ray, &world).b as u16;
+                r += ray_color(&ray, &world, 5).r as u16;
+                g += ray_color(&ray, &world, 5).g as u16;
+                b += ray_color(&ray, &world, 5).b as u16;
             }
 
             r /= steps;
@@ -145,7 +145,11 @@ pub fn main() {
     }
 }
 
-fn ray_color(ray: &Ray, world: &Vec<Box<dyn Hittable>>) -> Color {
+fn ray_color(ray: &Ray, world: &Vec<Box<dyn Hittable>>, depth: u8) -> Color {
+
+    if depth <= 0 {
+        return Color::BLACK;
+    }
 
     let mut hit: Hit = Hit{
         t: 0.0,
@@ -162,9 +166,15 @@ fn ray_color(ray: &Ray, world: &Vec<Box<dyn Hittable>>) -> Color {
         front_face: true,
     };
     if hit_anything(world, ray, 0.0, utilities::INF as f32, &mut hit){
-        let r = 127.0 * (1.0 - hit.normal.y);
-        let g = 127.0 * (1.0 - hit.normal.y);
-        let b = 127.0 * (1.0 - hit.normal.y);
+        let target = hit.point + hit.normal + random_vector_in_unit_sphere();
+        let ray2 = Ray{
+            origin: hit.point,
+            direction: target - hit.point,
+        };
+
+        let r = ray_color(&ray2, world, depth - 1).r;
+        let g = ray_color(&ray2, world, depth - 1).g;
+        let b = ray_color(&ray2, world, depth - 1).b;
         return Color::RGB(r as u8, g as u8, b as u8);
     }
     let unit_direction = ray.direction.unit();
