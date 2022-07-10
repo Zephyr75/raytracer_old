@@ -16,11 +16,11 @@ pub struct Hit {
 }
 
 pub trait Hittable {
-    fn hit(&self, ray: Ray, t_min: f32, t_max: f32, hit: &mut Hit) -> bool;
+    fn hit(&self, ray: &Ray, t_min: f32, t_max: f32, hit: &mut Hit) -> bool;
 }
 
 impl Hit{
-    pub fn set_face_normal(&mut self, ray: Ray, outward_normal: Vector3){
+    pub fn set_face_normal(&mut self, ray: &Ray, outward_normal: Vector3){
         self.front_face = ray.direction.dot(outward_normal) < 0.0;
         self.normal = if self.front_face {
             outward_normal

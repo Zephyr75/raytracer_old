@@ -11,8 +11,9 @@ pub struct Sphere {
     pub radius: f32,
 }
 
+
 impl Hittable for Sphere {
-    fn hit(&self, ray: Ray, t_min: f32, t_max: f32, hit: &mut Hit) -> bool {
+    fn hit(&self, ray: &Ray, t_min: f32, t_max: f32, hit: &mut Hit) -> bool {
         let oc = ray.origin - self.center;
         let a = ray.direction.length().powi(2);
         let half_b = oc.dot(ray.direction);
@@ -23,12 +24,12 @@ impl Hittable for Sphere {
             return false;
         }
 
-        let sqrtDiscriminant = discriminant.sqrt();
+        let sqrt_discriminant = discriminant.sqrt();
 
         // Find the nearest root that lies in the acceptable range
-        let mut root = (-half_b - sqrtDiscriminant) / a;
+        let mut root = (-half_b - sqrt_discriminant) / a;
         if (root < t_min || root > t_max) {
-            root = (-half_b + sqrtDiscriminant) / a;
+            root = (-half_b + sqrt_discriminant) / a;
             if (root < t_min || root > t_max) {
                 return false;
             }
