@@ -40,7 +40,7 @@ pub fn main() {
     let sdl_context = sdl2::init().unwrap();
     let video_subsystem = sdl_context.video().unwrap();
  
-    let window = video_subsystem.window("Raytracer", 800, 450)
+    let window = video_subsystem.window("Raytracer", 600, 300)
         .position_centered()
         .resizable()
         .build()
@@ -78,25 +78,28 @@ pub fn main() {
 
         let mut pixels: Vec<(Point, Color)> = vec![(Point::new(0, 0), Color::BLACK); (height * width) as usize];
 
-        let mut world: Vec<Box<dyn Hittable>> = vec![];
-        world.push(Box::new(Sphere {
+        let sphere1 = Box::new(Sphere {
             center: Point3 {
                 x: 0.0,
                 y: 0.0,
                 z: -1.0,
             },
             radius: 0.5,
-        }));
-        world.push(Box::new(Sphere {
+        });
+
+        let sphere2 = Box::new(Sphere {
             center: Point3 {
-                x: 1.0,
-                y: 0.0,
+                x: 0.0,
+                y: -100.5,
                 z: -1.0,
             },
-            radius: 0.2,
-        }));
-        
+            radius: 100.0,
+        });
+
+        let world: Vec<Box<dyn Hittable>> = vec![sphere1, sphere2];
+        println!("{}", pixels.len());
         pixels.par_iter_mut().enumerate().for_each(|(k, p)| {
+            println!("{}", k);
             let i = k as u32 % width;
             let j = k as u32 / width;
             
@@ -107,7 +110,7 @@ pub fn main() {
 
             let steps = 1;
             
-            for _ in 0..steps {
+            /*for _ in 0..steps {
                 let u: f32 = (i as f32 + random_double()) / (width as f32 - 1.0);
                 let v: f32 = (j as f32 + random_double()) / (height as f32 - 1.0);
 
@@ -117,13 +120,22 @@ pub fn main() {
                 g += ray_color(&ray, &world, 5).g as u16;
                 b += ray_color(&ray, &world, 5).b as u16;
             }
+            */
+            let u: f32 = i as f32 / (width as f32 - 1.0);
+            let v: f32 = j as f32 / (height as f32 - 1.0);
+            let ray: Ray = camera.get_ray(u, v);
+            r = ray_color(&ray, &world, 5).r as u16;
+            g = ray_color(&ray, &world, 5).g as u16;
+            b = ray_color(&ray, &world, 5).b as u16;
 
-            r /= steps;
-            g /= steps;
-            b /= steps;
-            r.clamp(0, 254);
-            g.clamp(0, 254);
-            b.clamp(0, 254);
+            /*let scale = 1.0 / steps as f32;
+
+            r = (r as f32 * scale).sqrt() as u16;
+            g = (g as f32 * scale).sqrt() as u16;
+            b = (b as f32 * scale).sqrt() as u16;*/
+            //r.clamp(0, 254);
+            //g.clamp(0, 254);
+            //b.clamp(0, 254);
             color = Color::RGB(r as u8, g as u8, b as u8);
             
             let point: Point = Point::new(i as i32, (height - j - 1) as i32);
